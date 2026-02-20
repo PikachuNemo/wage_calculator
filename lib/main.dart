@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(const WageCalculatorApp());
@@ -49,7 +50,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
   void initState() {
     super.initState();
     items = [Item()];
-    wageRateController = TextEditingController();
+    wageRateController = TextEditingController(text: '30');
   }
 
   @override
@@ -84,6 +85,27 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
     return (totalWeight * wageRate) / 100;
   }
 
+  Widget _styledNumber(double value, TextStyle style, {String prefix = '', String suffix = ''}) {
+    final s = value.toStringAsFixed(2);
+    final parts = s.split('.');
+    final integer = parts[0];
+    final integerFormatted = NumberFormat('#,##0', 'en_US').format(int.parse(integer));
+    final decimal = '.' + parts[1];
+    final baseColor = style.color ?? DefaultTextStyle.of(context).style.color ?? Colors.black;
+    final decimalStyle = style.copyWith(color: baseColor.withOpacity(0.5));
+
+    return RichText(
+      text: TextSpan(
+        children: [
+          if (prefix.isNotEmpty) TextSpan(text: prefix, style: style),
+          TextSpan(text: integerFormatted, style: style),
+          TextSpan(text: decimal, style: decimalStyle),
+          if (suffix.isNotEmpty) TextSpan(text: suffix, style: style),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double totalWeight = getTotalWeight();
@@ -114,10 +136,14 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                 return Card(
                   margin: const EdgeInsets.only(bottom: 12),
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    // padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
                     child: Column(
+                      
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
                               'Item ${index + 1}',
@@ -128,13 +154,29 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                             ),
                             const Spacer(),
                             if (items.length > 1)
+                              // IconButton(
+                              //   icon: const Icon(Icons.delete, color: Colors.red),
+                              //   onPressed: () => removeItem(index),
+                              //   iconSize: 24,
+                              //   padding: EdgeInsets.zero,
+                              //   constraints: const BoxConstraints(),
+                              // ),
+
                               IconButton(
                                 icon: const Icon(Icons.delete, color: Colors.red),
                                 onPressed: () => removeItem(index),
                                 iconSize: 24,
                                 padding: EdgeInsets.zero,
                                 constraints: const BoxConstraints(),
+                                visualDensity: VisualDensity.compact,
+                                style: IconButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  minimumSize: Size.zero,
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
                               ),
+
+                              
                           ],
                         ),
                         const SizedBox(height: 12),
@@ -158,7 +200,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                                     controller: items[index].quantityController,
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
-                                      hintText: 'Qty',
+                                      hintText: 'बोरा',
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8),
                                       ),
@@ -193,7 +235,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                                     controller: items[index].weightController,
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
-                                      hintText: 'Weight',
+                                      hintText: 'वजन',
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8),
                                       ),
@@ -232,11 +274,12 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                                       border: Border.all(color: Colors.blue.shade200),
                                     ),
                                     child: Center(
-                                      child: Text(
-                                        items[index].itemTotalWeight.toStringAsFixed(2),
-                                        style: const TextStyle(
+                                      child: _styledNumber(
+                                        items[index].itemTotalWeight,
+                                        const TextStyle(
                                           fontWeight: FontWeight.bold,
                                           fontSize: 16,
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ),
@@ -247,6 +290,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                           ],
                         ),
                       ],
+                      
                     ),
                   ),
                 );
@@ -295,19 +339,20 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          'Total Weight:',
+                          'Total Weight / कुल वजन:',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 14,
                           ),
                         ),
-                        Text(
-                          '${totalWeight.toStringAsFixed(2)} kg',
-                          style: const TextStyle(
+                        _styledNumber(
+                          totalWeight,
+                          const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                             color: Colors.blue,
                           ),
+                          suffix: ' kg',
                         ),
                       ],
                     ),
@@ -318,7 +363,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                     controller: wageRateController,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      labelText: 'Wage Rate (per 100 kg)',
+                      labelText: 'Wage Rate - Rs (per 100 kg)',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -326,7 +371,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                         horizontal: 12,
                         vertical: 12,
                       ),
-                      suffixText: 'Currency unit',
+                      suffixText: 'रु __ प्रत्येक कुइन्टल',
                     ),
                     onChanged: (_) {
                       setState(() {});
@@ -345,19 +390,20 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
-                          'Total Wage:',
+                          'Total Wage / ज्याला:',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
                         ),
-                        Text(
-                          wage.toStringAsFixed(2),
-                          style: const TextStyle(
+                        _styledNumber(
+                          wage,
+                          const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                             color: Colors.green,
                           ),
+                          prefix: 'Rs ',
                         ),
                       ],
                     ),
