@@ -371,7 +371,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                         horizontal: 12,
                         vertical: 12,
                       ),
-                      suffixText: 'रु __ प्रत्येक कुइन्टल',
+                      suffix: Text('रु ${wageRateController.text} प्रति कुइन्टल'),
                     ),
                     onChanged: (_) {
                       setState(() {});
