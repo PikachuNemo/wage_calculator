@@ -14,7 +14,7 @@ class WageCalculatorApp extends StatelessWidget {
     return MaterialApp(
       title: 'Wage Calculator',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
         useMaterial3: true,
       ),
       home: const WageCalculatorScreen(),
@@ -189,7 +189,10 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
       appBar: AppBar(
         title: const Text('Wage Calculator'),
         centerTitle: true,
-        elevation: 111,
+        elevation: 4,
+        backgroundColor: const Color.fromARGB(200, 175, 44, 199),
+        foregroundColor: Colors.white,
+
       ),
       body: GestureDetector(
         onTap: () {
@@ -209,7 +212,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
             // const SizedBox(height: 12),
             Container(    // Sacks Items Card container <==
               decoration: BoxDecoration(
-                color: Colors.pink.shade50,
+                color: Colors.green.shade200,
                 borderRadius: BorderRadius.circular(8),
               ),
               padding: const EdgeInsets.all(12),
@@ -224,6 +227,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 14,
+                          color: Color.fromARGB(255, 13, 78, 14),
                         ),
                       ),
                       SizedBox(
@@ -263,7 +267,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                   
                   return Card(
                   margin: const EdgeInsets.only(bottom: 12),
-                  color: const Color.fromARGB(255, 238, 242, 238),
+                  color: Colors.green.shade50,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
                     child: Column(
@@ -296,6 +300,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                               ),
                           ],
                         ),
+
                         const SizedBox(height: 12),
                         Row(
                           children: [
@@ -435,21 +440,24 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                   const SizedBox(height: 16),
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      'Total Weight / कुल वजन: ${totalWeight.toStringAsFixed(2)} kg',
-                      style: const TextStyle(
-                        fontSize: 14,
+                    child:_styledNumber(
+                      totalWeight,
+                      const TextStyle(
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
+                        color: Color.fromARGB(255, 13, 78, 14),
                       ),
-                    ),
+                      prefix: 'Total Weight / कुल वजन: ',
+                      suffix: ' kg',
+                    ),                     
                   ),
                   const SizedBox(height: 8),
                   Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.green.shade50,
+                      color: Colors.green.shade800,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.green.shade300),
+                      // border: Border.all(color: Colors.green.shade300),
                     ),
                     child: Row(    // sack wage <--
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -459,6 +467,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
+                            color: Colors.white,
                           ),
                         ),
                         _styledNumber(
@@ -466,7 +475,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                           const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
-                            color: Colors.green,
+                            color: Colors.white,
                           ),
                           prefix: 'Rs ',
                         ),
@@ -479,10 +488,10 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
             // Boxes Items Card
             if (boxQuantityControllers.isNotEmpty)
               Card(
-                margin: const EdgeInsets.only(bottom: 12, top: 10),
-                color: const Color.fromARGB(255, 244, 224, 235),
+                margin: const EdgeInsets.only(bottom: 12, top: 12),
+                color: Colors.orange.shade200,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 6),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -494,6 +503,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
+                              color: Color.fromARGB(255, 147, 88, 0),
                             ),
                           ),
                           SizedBox(    // Wage Rate Input for Boxes
@@ -507,6 +517,10 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                                 prefix: const Text('रु '),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(4),
+                                  // borderSide: BorderSide(
+                                  //   color: Colors.yellow.shade300,
+                                  //   width: 11,
+                                  // ),
                                 ),
                                 filled: true,
                                 fillColor: Colors.white,
@@ -580,10 +594,11 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          'Total Boxes: ${boxQuantityControllers.fold(0.0, (sum, controller) => sum + (double.tryParse(controller.text) ?? 0)).toInt()}',
+                          'Total Boxes / कुल संख्या: ${boxQuantityControllers.fold(0.0, (sum, controller) => sum + (double.tryParse(controller.text) ?? 0)).toInt()}',
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.w500,
+                            color: Color.fromARGB(255, 147, 88, 0),
                           ),
                         ),
                       ),
@@ -591,9 +606,9 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                       Container(
                         padding: const EdgeInsets.all(12),
                         decoration: BoxDecoration(
-                          color: Colors.orange.shade50,
+                          color: Colors.orange.shade800,
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.orange.shade200),
+                          // border: Border.all(color: Colors.orange.shade200),
                         ),
                         child: Row(             // box wage  <--
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -602,7 +617,8 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                               'कार्टून ज्याला:',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                                fontSize: 16,
+                                color: Colors.white,
                               ),
                             ),
                             _styledNumber(
@@ -610,7 +626,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                               const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: Colors.orange,
+                                color: Colors.white,
                               ),
                               prefix: 'Rs ',
                             ),
@@ -621,37 +637,43 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                   ),
                 ),
               ),
-            const SizedBox(height: 12),
-            // Add Item Buttons
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: addSack,
-                    icon: const ImageIcon(AssetImage("assets/icons/sack_icon.png"), size:24),
-                    label: const Text('Add बोरा'),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal:33),
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
+
+        
+            // Add Item Buttons           
+            Container(    // Container with padding around the button row
+              padding: const EdgeInsets.all(12), // Adjust padding as needed (e.g., symmetric)
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: addSack,
+                      icon: const ImageIcon(AssetImage("assets/icons/sack_icon.png"), size: 24),
+                      label: const Text('Add बोरा'),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 33),
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: addBox,
-                    icon: const ImageIcon(AssetImage("assets/icons/box_icon.png"), size:24),
-                    label: const Text('Add कार्टून'),
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal:33),
-                      backgroundColor: Colors.orange,
-                      foregroundColor: Colors.white,
+                  const SizedBox(width: 12), // Gap between buttons
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: addBox,
+                      icon: const ImageIcon(AssetImage("assets/icons/box_icon.png"), size: 24),
+                      label: const Text('Add कार्टून'),
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 33),
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
+
+
             
             const SizedBox(height: 24),
             // Summary Section
@@ -665,58 +687,69 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'Total Wage',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+                  // const Text(
+                  //   'Total Wage',
+                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  // ),
+
                   const SizedBox(height: 16),
                   Container(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.fromLTRB(12, 12, 12, 20),
                     decoration: BoxDecoration(
-                      color: Colors.blue.shade50,
+                      color: Colors.purple.shade600,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.blue.shade200),
+                      // border: Border.all(color: Colors.purple.shade200),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(        // total wage <--
-                          'कुल ज्याला :',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
+                    child: SizedBox(
+                      width: double.infinity, // Makes the Column take full width
+                        child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(        // total wage <--
+                              'Total Wage / कुल ज्याला :',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                            const SizedBox(height: 7), // Small vertical gap between label and value (optional)
+                            _styledNumber(
+                              wage + calculateBoxWage(),
+                              const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                              prefix: 'Rs ',
+                            ),
+                          ],                     
                         ),
-                        _styledNumber(
-                          wage + calculateBoxWage(),
-                          const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                            color: Colors.blue,
-                          ),
-                          prefix: 'Rs ',
-                        ),
-                      ],
                     ),
                   ),
-                  // const SizedBox(height: 12),
-                  // Formula Info
-                  // Container(
-                  //   padding: const EdgeInsets.all(12),
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.orange.shade50,
-                  //     borderRadius: BorderRadius.circular(8),
-                  //     border: Border.all(color: Colors.orange.shade200),
-                  //   ),
-                  //   child: const Text(
-                  //     'Formula: Wage = (Total Weight × Wage Rate) ÷ 100',
-                  //     style: TextStyle(
-                  //       fontSize: 12,
-                  //       fontStyle: FontStyle.italic,
-                  //       color: Colors.orange,
-                  //     ),
-                  //   ),
-                  // ),
+
+                      
+
+                  const SizedBox(height: 12),
+                  //Formula Info
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.shade50,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.orange.shade200),
+                    ),
+                    child: const Text(
+                      'Formula: Wage = (Total Weight × Wage Rate) ÷ 100',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.orange,
+                      ),
+                    ),
+                  ),
+
                 ],
               ),
             ),
