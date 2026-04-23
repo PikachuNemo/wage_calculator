@@ -71,6 +71,28 @@ class BoxItem extends Item {
   String get itemType => 'box';
 }
 
+class DecimalTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final text = newValue.text;
+
+    // Allow empty
+    if (text.isEmpty) return newValue;
+
+    // Check valid pattern: digits + optional single decimal
+    final isValid = RegExp(r'^\d*\.?\d*$').hasMatch(text);
+
+    if (isValid) {
+      return newValue; // accept change
+    }
+
+    return oldValue; // reject new character, keep old text
+  }
+}
+
 class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
   late List<Item> items;
   late TextEditingController wageRateController;
@@ -187,11 +209,12 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Wage Calculator'),
+        title: const Text('Wage Calculator', style: TextStyle(fontSize: 24)),
         centerTitle: true,
         elevation: 4,
-        backgroundColor: const Color.fromARGB(200, 175, 44, 199),
-        foregroundColor: Colors.white,
+        // backgroundColor: const Color.fromARGB(200, 175, 44, 199),
+        foregroundColor: Colors.purple.shade600,
+        
 
       ),
       body: GestureDetector(
@@ -210,11 +233,13 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
             //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             // ),
             // const SizedBox(height: 12),
-            Container(    // Sacks Items Card container <==
-              decoration: BoxDecoration(
-                color: Colors.green.shade200,
-                borderRadius: BorderRadius.circular(8),
-              ),
+            SizedBox(
+              width: double.infinity,
+              child: Container(    // Sacks Items Card container <==
+                decoration: BoxDecoration(
+                  color: Colors.green.shade200,
+                  borderRadius: BorderRadius.circular(8),
+                ),
               padding: const EdgeInsets.all(12),
               // margin: const EdgeInsets.only(bottom: 12),
               child: Column(
@@ -322,6 +347,9 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                                     controller: item.quantityController,
                                     focusNode: item.quantityFocusNode,
                                     keyboardType: TextInputType.number,
+                                    inputFormatters: [
+                                      DecimalTextInputFormatter(),
+                                    ],
                                     decoration: InputDecoration(
                                       labelText: 'बोरा',
                                       hintText: 'Quantity',
@@ -365,6 +393,9 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                                         controller: sackItem.weightController,
                                         focusNode: sackItem.weightFocusNode,
                                         keyboardType: TextInputType.number,
+                                        inputFormatters: [
+                                          DecimalTextInputFormatter(),
+                                        ],
                                         decoration: InputDecoration(
                                           labelText: 'वजन (kg)',
                                           hintText: 'Weight',
@@ -485,13 +516,16 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                 ],
               ),
             ),
+            ),
             // Boxes Items Card
             if (boxQuantityControllers.isNotEmpty)
-              Card(
-                margin: const EdgeInsets.only(bottom: 12, top: 12),
-                color: Colors.orange.shade200,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 12, 12, 6),
+              SizedBox(
+                width: double.infinity,
+                child: Card(
+                  margin: const EdgeInsets.only(bottom: 12, top: 12),
+                  color: Colors.orange.shade200,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 12, 12, 6),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -637,6 +671,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                   ),
                 ),
               ),
+            ),
 
         
             // Add Item Buttons           
@@ -677,13 +712,15 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
             
             const SizedBox(height: 24),
             // Summary Section
-            Container(
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.grey.shade300),
-              ),
+            SizedBox(
+              width: double.infinity,
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.purple.shade50,
+                  borderRadius: BorderRadius.circular(8),
+                  // border: Border.all(color: Colors.grey.shade300),
+                ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -752,6 +789,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
 
                 ],
               ),
+            ),
             ),
           ],
         ),
