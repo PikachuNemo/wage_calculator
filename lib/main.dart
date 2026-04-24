@@ -3,6 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.immersiveSticky,
+  );
+  
   runApp(const WageCalculatorApp());
 }
 
@@ -209,14 +215,33 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Wage Calculator', style: TextStyle(fontSize: 24)),
+        title: InkWell(
+          onTap: () {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: const Center(
+                  child: Text('Nemo says Hi! 👋',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              backgroundColor: Colors.purple.shade600,
+              behavior: SnackBarBehavior.floating,
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              duration: const Duration(seconds: 2),
+              ),
+            );
+          },
+          child: const Text(
+            'Wage Calculator',
+            style: TextStyle(fontSize: 24),
+          ),
+        ),
         centerTitle: true,
         elevation: 4,
-        // backgroundColor: const Color.fromARGB(200, 175, 44, 199),
         foregroundColor: Colors.purple.shade600,
-        
-
       ),
+
+
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
@@ -227,12 +252,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            // // Items List
-            // const Text(
-            //   'Items',
-            //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            // ),
-            // const SizedBox(height: 12),
+              
             SizedBox(
               width: double.infinity,
               child: Container(    // Sacks Items Card container <==
@@ -334,14 +354,6 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // const Text(
-                                  //   'Quantity',
-                                  //   style: TextStyle(
-                                  //     fontSize: 12,
-                                  //     fontWeight: FontWeight.w500,
-                                  //     color: Colors.grey,
-                                  //   ),
-                                  // ),
                                   const SizedBox(height: 4),
                                   TextField(
                                     controller: item.quantityController,
@@ -377,14 +389,6 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // const Text(
-                                  //   'Weight (kg)',
-                                  //   style: TextStyle(
-                                  //     fontSize: 12,
-                                  //     fontWeight: FontWeight.w500,
-                                  //     color: Colors.grey,
-                                  //   ),
-                                  // ),
                                   const SizedBox(height: 4),
                                   Builder(
                                     builder: (context) {
@@ -724,10 +728,6 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // const Text(
-                  //   'Total Wage',
-                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  // ),
 
                   const SizedBox(height: 16),
                   Container(
