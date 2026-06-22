@@ -678,40 +678,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
             ),
 
         
-            // Add Item Buttons           
-            Container(    // Container with padding around the button row
-              padding: const EdgeInsets.all(12), // Adjust padding as needed (e.g., symmetric)
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: addSack,
-                      icon: const ImageIcon(AssetImage("assets/icons/sack_icon.png"), size: 24),
-                      label: const Text('Add बोरा'),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 33),
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12), // Gap between buttons
-                  Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: addBox,
-                      icon: const ImageIcon(AssetImage("assets/icons/box_icon.png"), size: 24),
-                      label: const Text('Add कार्टून'),
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 33),
-                        backgroundColor: Colors.orange,
-                        foregroundColor: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
+            const SizedBox(height: 30),
 
             
             const SizedBox(height: 24),
@@ -719,7 +686,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
             SizedBox(
               width: double.infinity,
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: Colors.purple.shade50,
                   borderRadius: BorderRadius.circular(8),
@@ -787,12 +754,50 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                     ),
                   ),
 
+
+                  const SizedBox(height: 18),
+
                 ],
               ),
             ),
             ),
           ],
         ),
+        ),
+      ),
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: Row(
+            children: [
+              Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: addSack,
+                  icon: const ImageIcon(AssetImage("assets/icons/sack_icon.png"), size: 24),
+                  label: const Text('Add बोरा'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 33),
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: ElevatedButton.icon(
+                  onPressed: addBox,
+                  icon: const ImageIcon(AssetImage("assets/icons/box_icon.png"), size: 24),
+                  label: const Text('Add कार्टून'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 33),
+                    backgroundColor: Colors.orange,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
