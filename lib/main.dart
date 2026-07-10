@@ -359,6 +359,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                                     controller: item.quantityController,
                                     focusNode: item.quantityFocusNode,
                                     keyboardType: TextInputType.number,
+                                    textInputAction: TextInputAction.done,
                                     inputFormatters: [
                                       DecimalTextInputFormatter(),
                                     ],
@@ -377,6 +378,12 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                                     ),
                                     onChanged: (_) {
                                       setState(() {});
+                                    },
+                                    onSubmitted: (_) {
+                                      final sackItem = item as SackItem;
+                                      if (sackItem.weightController.text.isEmpty) {
+                                        sackItem.weightFocusNode.requestFocus();
+                                      }
                                     },
                                   ),
                                 ],
@@ -397,6 +404,7 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                                         controller: sackItem.weightController,
                                         focusNode: sackItem.weightFocusNode,
                                         keyboardType: TextInputType.number,
+                                        textInputAction: TextInputAction.done,
                                         inputFormatters: [
                                           DecimalTextInputFormatter(),
                                         ],
@@ -415,6 +423,11 @@ class _WageCalculatorScreenState extends State<WageCalculatorScreen> {
                                         ),
                                         onChanged: (_) {
                                           setState(() {});
+                                        },
+                                        onSubmitted: (_) {
+                                          if (item.quantityController.text.isEmpty) {
+                                            item.quantityFocusNode.requestFocus();
+                                          }
                                         },
                                       );
                                     },
